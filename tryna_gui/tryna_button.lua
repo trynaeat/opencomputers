@@ -1,5 +1,13 @@
 local Drawable = require("tryna_drawable")
 
+local function splitStringLines(s, width)
+	local result = {}
+	for i=1,string.len(s),width do
+		table.insert(result, string.sub(s, i, math.min(i + width, string.len(s))))
+	end
+	return result
+end
+
 --******************
 -- Button
 -- *****************
@@ -21,6 +29,30 @@ function Button:new(x, y, text, buttonColor, textColor, activeButtonColor, activ
 	o.callback = callback
 	o.active = false
 	return o
+end
+
+-- Actual draw implementation
+function Button:draw(gpu)
+	if self.activeFrames == 0 then
+		self.active = false
+	end
+	local oldBGColor
+	local oldFGColor
+	if not self.active then
+		oldBGColor = gpu.setBackground(self.buttonColor)
+		oldFGColor = gpu.setForeground(self.textColor)
+	else
+		oldBGColor = gpu.setBackground(self.activeButtonColor)
+		oldFGColor = gpu.setForeground(self.activeTextColor)
+	end
+	gpu.fill(self.x, self.y, self.width, self.height, " ")
+	local yIncr = 0
+	for key, s in pairs(self.textSplit) do
+		gpu.set(self.x, self.y + yIncr, s)
+		yIncr = yIncr + 1
+	end
+	gpu.setBackground(oldBGColor)
+	gpu.setForeground(oldFGColor)
 end
 
 return Button
