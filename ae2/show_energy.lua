@@ -12,7 +12,7 @@ local y_middle = y / 2
 
 local function draw_screen()
 	local power = ae2.getAvgPowerUsage()
-	local text = "Avg Usage: " .. power .. " RF/T"
+	local text = string.format("Avg Usage: %.1f RF/T", power)
 	gpu.setBackground(0x000000)
 	gpu.setForeground(0xFFFFFF)
 	gpu.fill(1, 1, x, y, " ")
