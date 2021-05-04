@@ -13,7 +13,13 @@ local function draw_screen()
 	gpu.setBackground(0x000000)
 	gpu.setForeground(0xFFFFFF)
 	gpu.fill(1, 1, x, y, " ")
-	gpu.set(x_middle - #text, y_middle, text)
+	gpu.set(x_middle - #text / 2, y_middle, text)
 end
 
-local timer = event.timer(0.1, draw_screen, math.huge)
+local timer = event.timer(0.2, draw_screen, math.huge)
+
+
+local function on_keydown()
+	event.cancel(timer)
+end
+local key_listen = event.listen("key_down", on_keydown)
