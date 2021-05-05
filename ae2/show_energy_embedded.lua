@@ -1,12 +1,12 @@
 local gpu = component.proxy(component.list("gpu")())
 local ae2 = component.proxy(component.list("me_interface")())
 
+local x_res, y_res = gpu.getResolution()
+gpu.setResolution(x_res / 2, y_res / 4)
+
 local x, y = gpu.getViewport()
 local x_middle = x / 2
 local y_middle = y / 2
-
-local x_res, y_res = gpu.getResolution()
-gpu.setResolution(x_res / 2, y_res / 4)
 
 computer.beep(500, 0.5)
 
